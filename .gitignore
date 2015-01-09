@@ -1,0 +1,6 @@
+.idea
+.vagrant
+discovery_url
+production
+production_discovery_url
+datastax-cassandra.tar.xz

@@ -1,0 +1,23 @@
+- name: copy over xz compressed docker image https://github.com/allen13/datastax-cassandra-docker
+  copy: src=datastax-cassandra.tar.xz dest=/tmp/cassandra.tar.xz
+  register: image_copied
+
+- name: extract docker image
+  command: xz -k -f -d /tmp/cassandra.tar.xz
+  register: image_extracted
+  when: image_copied.changed
+
+- name: load docker image
+  command: docker load -i /tmp/cassandra.tar
+  when: image_extracted.changed
+
+- name: setup cassandra service file
+  copy: src=cassandra.service dest=/usr/lib/systemd/system/cassandra.service
+  register: service_updated
+
+- name: reload systemd daemon for service file update
+  command: systemctl daemon-reload
+  when: service_updated.changed
+
+- name: start cassandra
+  service: name=cassandra enabled=yes state=started

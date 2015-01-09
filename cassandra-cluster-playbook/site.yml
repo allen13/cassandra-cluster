@@ -1,0 +1,14 @@
+- name: all
+  hosts: all
+  gather_facts: false
+  sudo: true
+  roles:
+    - shared-host-file
+
+- name: cassandra servers
+  hosts: cassandra
+  gather_facts: false
+  sudo: true
+  roles:
+    - docker
+    - cassandra
