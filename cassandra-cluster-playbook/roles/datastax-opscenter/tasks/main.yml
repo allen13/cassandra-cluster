@@ -1,0 +1,24 @@
+- name: copy over xz compressed docker image https://github.com/allen13/datastax-opscenter-docker
+  copy: src=datastax-opscenter.tar.xz dest=/tmp/opscenter.tar.xz
+  register: image_copied
+
+- name: extract docker image
+  command: xz -k -f -d /tmp/opscenter.tar.xz
+  register: image_extracted
+  when: image_copied.changed
+
+- name: load docker image
+  command: docker load -i /tmp/opscenter.tar
+  when: image_extracted.changed
+  register: image_loaded
+
+- name: copy over opscenter service file
+  copy: src=opscenter.service dest=/usr/lib/systemd/system/opscenter.service
+  register: service_updated
+
+- name: reload systemd daemon for service file update
+  command: systemctl daemon-reload
+  when: service_updated.changed
+
+- name: start opscenter
+  service: name=opscenter enabled=yes state=started

@@ -10,6 +10,7 @@
 - name: load docker image
   command: docker load -i /tmp/cassandra.tar
   when: image_extracted.changed
+  register: image_loaded
 
 - name: setup cassandra service file
   copy: src=cassandra.service dest=/usr/lib/systemd/system/cassandra.service

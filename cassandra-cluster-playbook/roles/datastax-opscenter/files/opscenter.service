@@ -1,0 +1,21 @@
+[Unit]
+Description=Datastax Opscenter
+After=docker.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/etc/environment
+Restart=always
+RestartSec=5s
+
+ExecStart=/usr/bin/docker run --rm \
+-p 8888:8888 \
+-p 61620:61620 \
+--name opscenter \
+--net=host \
+datastax-opscenter
+
+ExecStop=/usr/bin/docker stop opscenter
+
+[Install]
+WantedBy=multi-user.target
