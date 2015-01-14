@@ -1,23 +1,5 @@
-- name: Install latest docker binary
-  unarchive:
-    src: docker-1.4.1.tgz
-    dest: /
-
-- name: Symlink docker to /usr/bin
-  file:
-    src: /usr/local/bin/docker
-    dest: /usr/bin/docker
-    state: link
-
-- name: Install docker.service systemd unit file
-  copy:
-    src: docker.service
-    dest: /usr/lib/systemd/system/docker.service
-
-- name: Install docker.socket systemd unit file
-  copy:
-    src: docker.socket
-    dest: /usr/lib/systemd/system/docker.socket
+- name: Install latest docker
+  yum: name=docker state=latest
 
 - name: Start docker
   service: name=docker enabled=yes state=started

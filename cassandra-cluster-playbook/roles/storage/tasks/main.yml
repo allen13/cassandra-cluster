@@ -1,0 +1,12 @@
+- name: install xfsprogs for formatting drives to xfs
+  apt: pkg=xfsprogs state=latest
+
+- filesystem: fstype=xfs dev=/dev/sdb force=yes
+- filesystem: fstype=xfs dev=/dev/sdc force=yes
+- filesystem: fstype=xfs dev=/dev/sdd force=yes
+- filesystem: fstype=xfs dev=/dev/sde force=yes
+
+- mount: name=/var/lib/cassandra src=/dev/sdb fstype=xfs state=mounted
+- mount: name=/var/lib/cassandra/data2 src=/dev/sdc fstype=xfs state=mounted
+- mount: name=/var/lib/cassandra/data3 src=/dev/sdd fstype=xfs state=mounted
+- mount: name=/var/lib/cassandra/data4 src=/dev/sde fstype=xfs state=mounted

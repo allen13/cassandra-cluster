@@ -4,18 +4,21 @@
   sudo: true
   roles:
     - shared-host-file
-    - docker
+
 
 - name: cassandra servers
   hosts: cassandra
   gather_facts: false
   sudo: true
   roles:
-    - cassandra
+    - oracle-java7
+    - storage
+    - datastax-cassandra
 
 - name: datastax opscenter
   hosts: datastax-opscenter
   gather_facts: false
   sudo: true
   roles:
+    - docker
     - datastax-opscenter

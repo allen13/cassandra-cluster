@@ -1,0 +1,4 @@
+/dev/sdb                                  /var/lib/cassandra      xfs     defaults        0 2
+/dev/sdc                                  /var/lib/cassandra/data1      xfs     defaults        0 2
+/dev/sdd                                  /var/lib/cassandra/data2      xfs     defaults        0 2
+/dev/sde                                  /var/lib/cassandra/data3      xfs     defaults        0 2

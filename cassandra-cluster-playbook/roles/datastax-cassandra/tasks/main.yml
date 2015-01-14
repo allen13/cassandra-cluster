@@ -1,0 +1,23 @@
+- name: add datastax key
+  apt_key: url="http://debian.datastax.com/debian/repo_key" state=present
+
+- name: add datastax repo
+  apt_repository: repo="deb http://debian.datastax.com/community stable main" state=present
+
+- name: install datastax cassandra
+  apt: pkg={{item}} state=latest
+  with_items:
+    - dsc21
+    - datastax-agent
+
+- name: create config for cassandra
+  template: src=cassandra.yaml.j2 dest=/etc/cassandra/cassandra.yaml
+
+- name: configure cassandra agent
+  copy: src=address.yaml dest=/var/lib/datastax-agent/conf/address.yaml
+
+- name: start cassandra
+  service: name=cassandra enabled=yes state=started
+
+- name: start datastax agent
+  service: name=datastax-agent enabled=yes state=started
